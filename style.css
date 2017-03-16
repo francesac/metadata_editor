@@ -21,7 +21,7 @@ html, body {
 	position: fixed;
 	top: 0;
 	z-index: 20;
-	background-color: #fff; 
+	background-color: #fff;
 }
 
 #header_container {
@@ -58,7 +58,7 @@ html, body {
 	font-weight: bold;
 	text-align: center;
 	cursor: pointer;
-	
+
 }
 
 #login_console {
@@ -409,7 +409,7 @@ input[type=radio]:checked + label {
     margin-bottom: 10px;
     background-color: #FBBC05;
     font-weight: bold;
-    
+
 }
 
 #search_button:hover, #search_button:active, #search_button:focus {
@@ -495,7 +495,7 @@ input[type=radio]:checked + label {
 	box-sizing: border-box;
 	vertical-align: bottom;
 	height: auto;
-	color: #b5b5b5; 
+	color: #b5b5b5;
 }
 
 #data_input div span.fullspan {
@@ -852,7 +852,7 @@ input[type=radio]:checked + label {
 }
 
 #collections_container .collection .collection_elem {
-	
+
 }
 
 #collections_container .collection:hover {
@@ -1050,7 +1050,7 @@ input[type=radio]:checked + label {
 	display: inline-block;
 	text-align: right;
 	width: 15%;
-	
+
 	box-sizing: border-box;
 }
 
