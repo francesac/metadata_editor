@@ -23,7 +23,7 @@ switch($request) {
 
 		if ($picture=="") {
 			$picture="imgs/avatar.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
 		$check_id=select($conn, "SELECT MAX(person_id) AS lastId FROM persons");
@@ -52,7 +52,7 @@ switch($request) {
 		$long=$_REQUEST['long'];
 		$wiki=$_REQUEST['wiki'];
 		$bio=$_REQUEST['bio'];
-		$bio=mysql_real_escape_string($bio);
+		$bio=mysqli_real_escape_string($conn, $bio);
 		$picture=$_REQUEST['picture'];
 
 		if ($ename=="") {
@@ -61,7 +61,7 @@ switch($request) {
 
 		if ($picture=="") {
 			$picture="imgs/location.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
 		$check_id=select($conn, "SELECT MAX(location_id) AS lastId FROM places");
@@ -92,7 +92,7 @@ switch($request) {
 		$lang=$_REQUEST['lang'];
 		$wiki=$_REQUEST['wiki'];
 		$bio=$_REQUEST['bio'];
-		$bio=mysql_real_escape_string($bio);
+		$bio=mysqli_real_escape_string($conn, $bio);
 		$picture=$_REQUEST['picture'];
 
 		if ($etitle=="") {
@@ -101,7 +101,7 @@ switch($request) {
 
 		if ($picture=="") {
 			$picture="imgs/museum.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
 		$check_id=select($conn, "SELECT MAX(cho_id) AS lastId FROM cho");
