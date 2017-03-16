@@ -3,12 +3,12 @@
 include ("api/config.php");
 $conn=openDB();
 
-if( isset( $_REQUEST["provider"] ) ) { 
+if( isset( $_REQUEST["provider"] ) ) {
 $provider_name = $_REQUEST["provider"];
 	try
 	{
 	$config   = dirname(__FILE__) . '/libraries/hybridauth/config.php';
-	require_once( dirname(__FILE__) . '/libraries/hybridauth/Hybrid/Auth.php' ); 
+	require_once( dirname(__FILE__) . '/libraries/hybridauth/Hybrid/Auth.php' );
 	$hybridauth = new Hybrid_Auth( $config );
  // try to authenticate with the selected provider
 	$adapter = $hybridauth->authenticate( $provider_name );
@@ -24,7 +24,7 @@ $provider_name = $_REQUEST["provider"];
 	{
 		echo $e->getMessage();
 		echo $e->getCode();
-		
+
 	}
 // set the user as connected and redirect him
 	if(isset($name)&&isset($email)){
@@ -36,7 +36,7 @@ $provider_name = $_REQUEST["provider"];
 	    	if(!$res) die("Errore inserimento $sql".mysqli_errno($conn));
 	    	else echo ("OK");
 		}
-		header("Location: http://localhost/LPW/MetadataEditor/index.php?user=$name&lastname=$lastname&email=$email");
+		header("Location: index.php?user=$name&lastname=$lastname&email=$email");
 	}
 	else {
 		echo ("error while connecting to '$provider_name'");
