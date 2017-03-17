@@ -88,6 +88,7 @@ switch($request) {
 	break;
 
 	case "wiki_person":
+		$keys=[];
 		$nomepersona = $_REQUEST['nomepersona'];
 		$cognomepersona = $_REQUEST['cognomepersona'];
 		if($nomepersona!="" && $cognomepersona!="") {
@@ -102,64 +103,109 @@ switch($request) {
 			$nomecompleto = $cognomepersona;
 		}
 
-		$query="SELECT DISTINCT ?person ?nome ?name ?wiki ?bio ?thumbedit ?viafedit ?birthedit ?birthplaceedit ?deathedit ?deathplaceedit
-		WHERE {
-			?person dbp:name ?name;
-			foaf:name ?nome;
-			foaf:isPrimaryTopicOf ?wiki;
-			dbo:abstract ?bio .
-			OPTIONAL {?person dbo:thumbnail ?thumbnail} .
-			OPTIONAL {?person dbo:viafId ?viaf } .
-			OPTIONAL {?person dbo:birthDate ?birth} .
-			OPTIONAL {?person dbo:deathDate ?death} .
-			OPTIONAL {?person dbp:birthPlace ?birthplace} .
-			OPTIONAL {?person dbp:deathPlace ?deathplace} .
-			FILTER (lang(?bio) = 'en')
-			VALUES (?name) {('$nomepersona $cognomepersona'@en)('$cognomepersona, $nomepersona'@en)('$nomecompleto'@en)}.
-			BIND (COALESCE(?thumbnail, '') AS ?thumbedit).
-			BIND (COALESCE(?viaf, '') AS ?viafedit).
-			BIND (COALESCE(?birth, '') AS ?birthedit).
-			BIND (COALESCE(?death, '') AS ?deathedit).
-			BIND (COALESCE(?birthplace, '') AS ?birthplaceedit).
-			BIND (COALESCE(?deathplace, '') AS ?deathplaceedit).
+		$keys['a-'.$nomecompleto]=$nomecompleto;
+
+		//get VIAF id
+		$query="http://viaf.org/viaf/AutoSuggest?query=$nomecompleto";
+		$result = file_get_contents("$query");
+		$json_viaf1 = json_decode($result);
+		$json_viaf2 = $json_viaf1 ->result;
+		if ($json_viaf2 !=null){
+			$viaf_id=$json_viaf2[0]->viafid;
 		}
-		LIMIT 2";
+		//check variations
+		if ($viaf_id!=null) {
+			//get variations
+			$query="http://viaf.org/viaf/$viaf_id/rdf.xml";
+			$result = file_get_contents("$query");
+			$xml = new SimpleXMLElement("$result");
+			$elements = $xml->xpath('/rdf:RDF/rdf:Description/schema:name[@xml:lang]');
+			$i=0;
+			$langarray=array();
+			$namearray=array();
+			$multilang=array();
+			foreach ($elements as $element) {
+				$att=$element->attributes('xml', TRUE)->lang;
+				$namearray[$i]=(string)$element;
+				$langarray[$i]=(string)$att;
+				$multilang[$i]= array("lingua" =>(string)$att,
+				"valore" =>(string)$element);
+				$i++;
+			}
+			$variations=[];
+			foreach ($multilang as $key => $value) {
+				if ($value['lingua']=='en-US') {
+					$variations['b-'.$value['valore']]=$value['valore'];
+					if (str_word_count($value['valore'])>1) {
+						$word=explode(' ',$value['valore']);
+						$variations['d-'.$key.'-name']=$word[0];
+						$variations['c-'.$key.'-surname']=$word[1];
+					}
+				};
+			}
+			foreach ($variations as $key => $value) {
+				$keys[$key]=$value;
+			};
+		}
 
-		$query = urlencode($query);
-		error_reporting(0);
-		$json_wiki = file_get_contents('http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query='.$query.'%0D%0A&format=json&timeout=10000&debug=on');
-		 $json_wiki = json_decode ($json_wiki);
-		if ($json_wiki != ''){
-			$result = $json_wiki->results->bindings;
-			$bpe=$result[0]->birthplaceedit->value;
-			if (strpos($bpe, "http")!==false) {
-				$bpe=substr($bpe, strlen("http://dbpedia.org/resource/"));
-				$result[0]->birthplaceedit->value=$bpe;
-			}
-			$dpe=$result[0]->deathplaceedit->value;
-			if (strpos($dpe, "http")!==false) {
-				$dpe=substr($dpe, strlen("http://dbpedia.org/resource/"));
-				$result[0]->deathplaceedit->value=$dpe;
-			}
+		$keys=array_unique($keys);
+		ksort($keys);
 
-			foreach ($result as $ris){
-				$abs = $ris->est->value;
+		$results=[];
+		foreach ($keys as $key => $value) {
+			$query="SELECT DISTINCT ?person ?nome ?name ?wiki ?bio ?thumbedit ?viafedit ?birthedit ?birthplaceedit ?deathedit ?deathplaceedit
+			WHERE {
+				?person dbp:name ?name;
+				foaf:name ?nome;
+				foaf:isPrimaryTopicOf ?wiki;
+				dbo:abstract ?bio .
+				OPTIONAL {?person dbo:thumbnail ?thumbnail} .
+				OPTIONAL {?person dbo:viafId ?viaf } .
+				OPTIONAL {?person dbo:birthDate ?birth} .
+				OPTIONAL {?person dbo:deathDate ?death} .
+				OPTIONAL {?person dbp:birthPlace ?birthplace} .
+				OPTIONAL {?person dbp:deathPlace ?deathplace} .
+				FILTER (lang(?bio) = 'en')
+				VALUES (?name) {('$value'@en)}.
+				BIND (COALESCE(?thumbnail, '') AS ?thumbedit).
+				BIND (COALESCE(?viaf, '') AS ?viafedit).
+				BIND (COALESCE(?birth, '') AS ?birthedit).
+				BIND (COALESCE(?death, '') AS ?deathedit).
+				BIND (COALESCE(?birthplace, '') AS ?birthplaceedit).
+				BIND (COALESCE(?deathplace, '') AS ?deathplaceedit).
 			}
+			LIMIT 2";
 
-			if ($abs == NULL){
-			$result["check"]="EMPTY";
-				echo json_encode($result);
-			}
-			else {
+			$query = urlencode($query);
+			error_reporting(0);
+			$json_wiki = file_get_contents('http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query='.$query.'%0D%0A&format=json&timeout=10000&debug=on');
+			$json_wiki = json_decode ($json_wiki);
+			if ($json_wiki != ''){
+				$result = $json_wiki->results->bindings;
+				$bpe=$result[0]->birthplaceedit->value;
+				if (strpos($bpe, "http")!==false) {
+					$bpe=substr($bpe, strlen("http://dbpedia.org/resource/"));
+					$result[0]->birthplaceedit->value=$bpe;
+				}
+				$dpe=$result[0]->deathplaceedit->value;
+				if (strpos($dpe, "http")!==false) {
+					$dpe=substr($dpe, strlen("http://dbpedia.org/resource/"));
+					$result[0]->deathplaceedit->value=$dpe;
+				}
+
 				$result = str_replace('[', '', $result);
 				$result = str_replace(']', '', $result);
-				echo json_encode($result);
+				foreach ($result as $key => $value) {
+					array_push($results,$value);
+				}
+			}
+			else{
+				$results["check"]="CONNERROR";
+				array_push($results,$result);
 			}
 		}
-		else{
-			$result["check"]="CONNERROR";
-			echo json_encode($result);
-		 }
+
+		echo json_encode($results);
 	break;
 
 	case "viaf_person":
@@ -180,6 +226,28 @@ switch($request) {
 			$test["check"]="EMPTY";
 			echo json_encode($test);
 		}
+	break;
+
+	case "variations";
+		$viaf = $_REQUEST['viaf'];
+		$query="http://viaf.org/viaf/$viaf/rdf.xml";
+		$result = file_get_contents("$query");
+		$xml = new SimpleXMLElement("$result");
+		$elements = $xml->xpath('/rdf:RDF/rdf:Description/schema:name[@xml:lang]');
+		$i=0;
+		//$assoclang=array("lang", "value")
+		$langarray=array();
+		$namearray=array();
+		$multilang=array();
+		foreach ($elements as $element) {
+			$att=$element->attributes('xml', TRUE)->lang;
+			$namearray[$i]=(string)$element;
+			$langarray[$i]=(string)$att;
+			$multilang[$i]= array("lingua" =>(string)$att,
+			"valore" =>(string)$element);
+			$i++;
+		}
+		echo json_encode ($multilang);
 	break;
 
 	case "wiki_place" :
