@@ -1,5 +1,5 @@
 $(window).ready(function () {
-	
+
 	$('*').click(function(){
 
 	});
@@ -24,7 +24,7 @@ $(window).ready(function () {
 	$('#header_title span').click(function(){
 		$.fn.fullpage.moveTo(1, 0);
 	});
-	
+
 	$('#google').click(function(){
 		window.location.href='login.php?provider=google';
 	})
@@ -122,7 +122,7 @@ function login() {
 							else {
 								$('#login_console_result').html('The passwords are not matching.');
 							}
-							
+
 						})
 					}
 					else {
@@ -254,18 +254,18 @@ function isDate(txtDate) {
 	    //Checks for mm/dd/yyyy format.
 	    dtYear = date[0];
 	    dtMonth= date[1];
-	    dtDay = date[2];  
+	    dtDay = date[2];
 
-	    if (dtMonth < 1 || dtMonth > 12) 
+	    if (dtMonth < 1 || dtMonth > 12)
 	    	return false;
-	    else if (dtDay < 1 || dtDay> 31) 
+	    else if (dtDay < 1 || dtDay> 31)
 	    	return false;
-	    else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) 
+	    else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31)
 	    	return false;
-	    else if (dtMonth == 2) 
+	    else if (dtMonth == 2)
 	    {
 	    	var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-	    	if (dtDay> 29 || (dtDay ==29 && !isleap)) 
+	    	if (dtDay> 29 || (dtDay ==29 && !isleap))
 	    		return false;
 	    }
 	    return true;
@@ -281,7 +281,7 @@ function isYear(txtDate) {
     var rxDatePattern = /^\d{4}$/; //Declare Regex
     var dtArray = currVal.match(rxDatePattern); // is format OK?
 
-    if (dtArray == null) 
+    if (dtArray == null)
     	return false;
 
     return true;
@@ -310,7 +310,7 @@ function date_formatter(dateOb) {
 		}
 		var date = day + "/" + month + "/" + year;
 		return date;
-	} 
+	}
 };
 
 function number_formatter(str) {
@@ -323,8 +323,8 @@ function number_formatter(str) {
 
 	if (first === '-') {
 		main = main.slice(1);
-		len = main.length;    
-	} 
+		len = main.length;
+	}
 	else {
 		first = "";
 	}
@@ -407,7 +407,7 @@ function view_collection(id, name) {
 		success: function (result) {
 			console.log(result)
 			var res=""; //variabile che contiene i risultati
-			
+
 			var persons=result[0];
 			var places=result[1];
 			var cho=result[2];
@@ -451,7 +451,7 @@ function view_collection(id, name) {
 					var still_alive=value.still_alive;
 
 					//se il luogo di nascita non è specificato lo indico come mancante
-					if (birthplace=="") { 
+					if (birthplace=="") {
 						birthplace="--"
 					}
 					//se il luogo di morte non è specificato lo indico come mancante
@@ -490,10 +490,10 @@ function view_collection(id, name) {
 					'</tr>';
 				});
 				person_res+='</table>';
-				
+
 				$('#result .internal_slider').append(person_res);
 			}
-			
+
 			if (places!=null) {
 				$('#result .internal_slider').append("<h2 type='places' class='result_subtitle'>"+places.length+" Places<img class='DB_arrow' type='places' src='imgs/arrow.svg' /></h2>");
 				var places_res="<table class='DB_records_container' type='places'>";
@@ -534,7 +534,7 @@ function view_collection(id, name) {
 					else {
 						latlong=lat+", "+long;
 					}
-					
+
 					places_res+='<tr class="DB_record"><td><b>'+oname+', '+ename+'</b></td>'+
 					'<td>'+region+'</td><td>'+country+'</td><td>'+population+'</td><td>'+latlong+'</td>'+
 					'<td class="centered"><img type="place" key_id="'+key_id+'" class="view_record" src="imgs/len.svg" /></td>'+
@@ -543,7 +543,7 @@ function view_collection(id, name) {
 				places_res+="</table>";
 				$('#result .internal_slider').append(places_res);
 			}
-			
+
 			if (cho!=null) {
 				$('#result .internal_slider').append("<h2 type='cho' class='result_subtitle'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow' type='cho' src='imgs/arrow.svg' /></h2>");
 				var cho_res="<table class='DB_records_container' type='cho'>";
@@ -579,7 +579,7 @@ function view_collection(id, name) {
 					}
 
 
-					
+
 					cho_res+='<tr class="DB_record"><td><b>'+otitle+' ('+etitle+')</b></td>'+
 					'<td>'+author+'</td><td>'+place+'</td><td>'+date+'</td><td>'+type+'</td>'+
 					'<td class="centered"><img type="cho" key_id="'+key_id+'" class="view_record" src="imgs/len.svg" /></td>'+
@@ -588,7 +588,7 @@ function view_collection(id, name) {
 				cho_res+="</table>";
 				$('#result .internal_slider').append(cho_res);
 			}
-		
+
 			$('.DB_records_container').hide();
 			$('.result_subtitle').click(function(){
 				var type=$(this).attr('type');
@@ -618,7 +618,7 @@ function edit_collection(id, name) {
 		success: function (result) {
 			console.log(result)
 			var res=""; //variabile che contiene i risultati
-			
+
 			var persons=result[0];
 			var places=result[1];
 			var cho=result[2];
@@ -662,7 +662,7 @@ function edit_collection(id, name) {
 					var still_alive=value.still_alive;
 
 					//se il luogo di nascita non è specificato lo indico come mancante
-					if (birthplace=="") { 
+					if (birthplace=="") {
 						birthplace="--"
 					}
 					//se il luogo di morte non è specificato lo indico come mancante
@@ -701,10 +701,10 @@ function edit_collection(id, name) {
 					'</tr>';
 				});
 				person_res+='</table>';
-				
+
 				$('#result .internal_slider').append(person_res);
 			}
-			
+
 			if (places!=null) {
 				$('#result .internal_slider').append("<h2 type='places' class='result_subtitle result_subtitle_fw'>"+places.length+" Places<img class='DB_arrow rotate' type='places' src='imgs/arrow.svg' /></h2>");
 				var places_res="<table class='DB_records_container' type='places'>";
@@ -745,7 +745,7 @@ function edit_collection(id, name) {
 					else {
 						latlong=lat+", "+long;
 					}
-					
+
 					places_res+='<tr class="DB_record" key_id="'+key_id+'" name="'+oname+'"><td><b>'+oname+', '+ename+'</b></td>'+
 					'<td>'+region+'</td><td>'+country+'</td><td>'+population+'</td><td>'+latlong+'</td>'+
 					'<td class="centered"><img type="place" key_id="'+key_id+'" class="remove_record" src="imgs/bin.svg" /></td>'+
@@ -754,7 +754,7 @@ function edit_collection(id, name) {
 				places_res+="</table>";
 				$('#result .internal_slider').append(places_res);
 			}
-			
+
 			if (cho!=null) {
 				$('#result .internal_slider').append("<h2 type='cho' class='result_subtitle result_subtitle_fw'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow rotate' type='cho' src='imgs/arrow.svg' /></h2>");
 				var cho_res="<table class='DB_records_container' type='cho'>";
@@ -790,7 +790,7 @@ function edit_collection(id, name) {
 					}
 
 
-					
+
 					cho_res+='<tr class="DB_record" key_id="'+key_id+'" name="'+otitle+'"><td><b>'+otitle+' ('+etitle+')</b></td>'+
 					'<td>'+author+'</td><td>'+place+'</td><td>'+date+'</td><td>'+type+'</td>'+
 					'<td class="centered"><img type="cho" key_id="'+key_id+'" class="remove_record" src="imgs/bin.svg" /></td>'+
@@ -799,8 +799,8 @@ function edit_collection(id, name) {
 				cho_res+="</table>";
 				$('#result .internal_slider').append(cho_res);
 			}
-		
-			
+
+
 			$('.result_subtitle').click(function(){
 				var type=$(this).attr('type');
 				$('.DB_records_container[type="'+type+'"]').toggle();
@@ -835,7 +835,7 @@ function edit_collection(id, name) {
 		success: function (result) {
 			console.log(result)
 			var res=""; //variabile che contiene i risultati
-			
+
 			var persons=result[0];
 			var places=result[1];
 			var cho=result[2];
@@ -878,7 +878,7 @@ function edit_collection(id, name) {
 					var still_alive=value.still_alive;
 
 					//se il luogo di nascita non è specificato lo indico come mancante
-					if (birthplace=="") { 
+					if (birthplace=="") {
 						birthplace="--"
 					}
 					//se il luogo di morte non è specificato lo indico come mancante
@@ -917,10 +917,10 @@ function edit_collection(id, name) {
 					'</tr>';
 				});
 				person_res+='</table>';
-				
+
 				$('#result .internal_slider').append(person_res);
 			}
-			
+
 			if (places!=null) {
 				$('#result .internal_slider').append("<h2 type='placesDB' class='result_subtitleDB'>Places<img class='DB_arrow rotate' type='placesDB' src='imgs/arrow.svg' /></h2>");
 				var places_res="<table class='DB_records_container hide' type='placesDB'>";
@@ -961,7 +961,7 @@ function edit_collection(id, name) {
 					else {
 						latlong=lat+", "+long;
 					}
-					
+
 					places_res+='<tr class="DB_record"><td><b>'+oname+', '+ename+'</b></td>'+
 					'<td>'+region+'</td><td>'+country+'</td><td>'+population+'</td><td>'+latlong+'</td>'+
 					'<td class="centered"><img type="place" key_id="'+key_id+'" class="add_record" src="imgs/add.svg" /></td>'+
@@ -970,7 +970,7 @@ function edit_collection(id, name) {
 				places_res+="</table>";
 				$('#result .internal_slider').append(places_res);
 			}
-			
+
 			if (cho!=null) {
 				$('#result .internal_slider').append("<h2 type='choDB' class='result_subtitleDB'>Cultural Heritage Object<img class='DB_arrow rotate' type='choDB' src='imgs/arrow.svg' /></h2>");
 				var cho_res="<table class='DB_records_container hide' type='choDB'>";
@@ -1006,7 +1006,7 @@ function edit_collection(id, name) {
 					}
 
 
-					
+
 					cho_res+='<tr class="DB_record"><td><b>'+otitle+' ('+etitle+')</b></td>'+
 					'<td>'+author+'</td><td>'+place+'</td><td>'+date+'</td><td>'+type+'</td>'+
 					'<td class="centered"><img type="cho" key_id="'+key_id+'" class="add_record" src="imgs/add.svg" /></td>'+
@@ -1040,6 +1040,7 @@ function new_collection() {
 	$('#new_collection').css('background-color', '#8fb4c1');
 	var string='<tr id="new_collection_row"><td id="new_collection_name"><input type="text" placeholder="New collection name"></input></td>'+
 	'<td></td>'+
+	'<td></td>'+
 	'<td class="collection_button" id="new_collection_create"><img src="imgs/check.svg" /></td>'+
 	'<td class="collection_button" id="new_collection_cancel"><img src="imgs/cancel.svg" /></td></tr>';
 	$("#collections_container").append(string);
@@ -1052,6 +1053,7 @@ function delete_collection(id) {
 	var elem=$('.collection[collid="'+id+'"]');
 	var name=$('.collection[collid="'+id+'"] .collection_name').html();
 	var string='<td>Delete <i>'+name+'</i>?</td>'+
+	'<td></td>'+
 	'<td></td>'+
 	'<td class="collection_button" id="delete_collection_confirm"><img src="imgs/check.svg" /></td>'+
 	'<td class="collection_button" id="delete_collection_cancel"><img src="imgs/cancel.svg" /></td>';
@@ -1073,7 +1075,7 @@ function modify_collection(action, id) {
 			data: {email: email, name:name, request:"add_collection"}, //effettuo una chiamata ajax
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			success: function (result) {
-					
+
 			}
 		});
 	}
@@ -1142,7 +1144,7 @@ function export_collection(coll_id, name) {
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success: function (result) {
 			console.log(result)
-			
+
 			zip = new JSZip();
 			var readme='----- Files downloaded from MetadataEditor -----\r\n\r\n'+
 			'• In the "dump" folder you can find the DataBase structure, we recommend to import that first, if you haven\'t already.\r\n'+
@@ -1173,7 +1175,7 @@ function export_collection(coll_id, name) {
 				});
 			},50);
 
-			
+
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
@@ -1184,67 +1186,67 @@ function export_collection(coll_id, name) {
 function JSONToCSVConvertor(JSONData, ReportTitle, type, ShowLabel) {
     //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
     var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
-    
+
     var CSV = '';
 
     //This condition will generate the Label/Header
     if (ShowLabel) {
         var row = "";
-        
+
         //This loop will extract the label from 1st index of on array
         for (var index in arrData[0]) {
-            
+
             //Now convert each value to string and comma-seprated
             row += index + ',';
         }
 
         row = row.slice(0, -1);
-        
+
         //append Label row with line break
         CSV += row + '\r\n';
     }
-    
+
     //1st loop is to extract each row
     for (var i = 0; i < arrData.length; i++) {
         var row = "";
-        
+
         //2nd loop will extract each column and convert it in string comma-seprated
         for (var index in arrData[i]) {
             row += '"' + arrData[i][index] + '",';
         }
 
         row.slice(0, row.length - 1);
-        
+
         //add a line break after each row
         CSV += row + '\r\n';
     }
 
-    if (CSV == '') {        
+    if (CSV == '') {
         alert("Invalid data");
         return;
-    }   
-    
+    }
+
     //Generate a file name
     var fileName = '';
     //this will remove the blank-spaces from the title and replace it with an underscore
     fileName += ReportTitle.replace(/ /g,"_") + '_' + type;
-    
+
     //Initialize file format you want csv or xls
     var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
-    
+
     // Now the little tricky part.
     // you can use either>> window.open(uri);
     // but this will not work in some browsers
-    // or you will not get the correct file extension    
-    
+    // or you will not get the correct file extension
+
     //this trick will generate a temp <a /> tag
-    var link = document.createElement("a");    
+    var link = document.createElement("a");
     link.href = uri;
-    
+
     //set the visibility hidden so it will not effect on your web-layout
     link.style = "visibility:hidden";
     files.file(fileName.toLowerCase()+'.csv', CSV);
-    
+
     //this part will append the anchor tag and remove it after automatic click
     /*document.body.appendChild(link);
     link.click();
@@ -1273,7 +1275,7 @@ function create_element(request, value) {
 		var linkviaf=value.linkviafperson;
 
 		//se il luogo di nascita non è specificato lo indico come mancante
-		if (birthplace=="") { 
+		if (birthplace=="") {
 			birthplace="--"
 		}
 		//se il luogo di morte non è specificato lo indico come mancante
@@ -1498,7 +1500,7 @@ function create_element(request, value) {
 					})
 				}
 				string+='<li class="result_collection_add" key_id="'+key_id+'">Add to a collection</li></ul>';
-				
+
 				$('.result_content[key_id="'+key_id+'"] .result_column2').append(string);
 
 				$('.result_collection_add').off();
@@ -1544,7 +1546,7 @@ function create_element(request, value) {
 		});
 	}
 
-	function create_action(){		
+	function create_action(){
 		$('.result_modify').off();
 		$('.result_delete').off();
 
@@ -1598,9 +1600,9 @@ function create_element(request, value) {
 			if(this.complete) $(this).load();
 		});
 
-		
+
 	}
-	create_action();	
+	create_action();
 };
 
 function create_assoc_element(request, value) {
@@ -1630,7 +1632,7 @@ function create_assoc_element(request, value) {
 		var linkviaf=value.linkviafperson;
 
 		//se il luogo di nascita non è specificato lo indico come mancante
-		if (birthplace=="") { 
+		if (birthplace=="") {
 			birthplace="--"
 		}
 		//se il luogo di morte non è specificato lo indico come mancante
@@ -1851,7 +1853,7 @@ function create_assoc_element(request, value) {
 					})
 				}
 				string+='<li class="result_collection_add" key_id="'+key_id+'">Add to a collection</li></ul>';
-				
+
 				$('.result_content[key_id="'+key_id+'"] .result_column2').append(string);
 
 				$('.result_collection_add').off();
@@ -1897,7 +1899,7 @@ function create_assoc_element(request, value) {
 		});
 	}
 
-	function create_action(){		
+	function create_action(){
 		$('.result_modify').off();
 		$('.result_delete').off();
 
@@ -1935,7 +1937,7 @@ function create_assoc_element(request, value) {
 			})
 		})
 	}
-	create_action();	
+	create_action();
 };
 
 //funzione per la creazione delle mappe con la API di Google
@@ -1959,7 +1961,7 @@ function createMap(elem, lat, long) {
 
 
   	//memorizzo una mappa nella variabile map indicando l'elemento DOM nel quale inserirla (getElement...)
-  	var map = new google.maps.Map(document.getElementById(elem), { 
+  	var map = new google.maps.Map(document.getElementById(elem), {
 	    center: new google.maps.LatLng(lat,long), //setto il centro della mappa
 	    scrollwheel: false, //impedisco lo zoom con lo scroll del mouse
 	    draggable: false,
@@ -1984,7 +1986,7 @@ function associations_persons (key_id,author) {
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success: function (result) {
 			var res=""; //variabile che contiene i risultati
-			
+
 			if (result==null) { //se result è nullo significa che non ci sono risultati
 				//svuoto la finestra dei risultati in caso ce ne fossero di precedenti
 				str_pers+='<span class="result_nores">No results for "'+author+'", <span class="result_nores_add" key="'+author+'">add to the Database</span>.</span>';
@@ -2032,18 +2034,18 @@ function associations_places (key_id,places) {
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				success: function (result) {
 					var res=""; //variabile che contiene i risultati
-					
+
 					if (result==null) { //se result è nullo significa che non ci sono risultati
 						//svuoto la finestra dei risultati in caso ce ne fossero di precedenti
 						str_places+='<span class="result_nores">No results for "'+key+'", <span class="result_nores_add" key="'+key+'">add to the Database</span>.</span>';
-						
+
 					}
 					else {
 						$.each(result, function(index,value) {
 							str_places+='<span class="result_min" key_id="'+value.key_id+'"><img class="load" src="'+value.picture+'" /><span>'+value.original_name+'</span></span>';
 						})
 					}
-					
+
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					console.log(textStatus, errorThrown);
@@ -2083,14 +2085,14 @@ function associations_cho (key_id,name) {
 			if (result==null) { //se result è nullo significa che non ci sono risultati
 				//svuoto la finestra dei risultati in caso ce ne fossero di precedenti
 				str_cho+='<span class="result_nores">No associated cho.</span>';
-				
+
 			}
 			else {
 				$.each(result, function(index,value) {
 					str_cho+='<span class="result_min" key_id="'+value.key_id+'"><img class="load" src="'+value.picture+'" /><span>'+value.original_title+'</span></span>';
 				})
 			}
-			
+
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
@@ -2188,7 +2190,7 @@ function set_datalist() {
 			else {
 				$('#type_list').html("");
 			}
-			
+
 			$('#type_list').html(options);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -2206,7 +2208,7 @@ function searchDB(type, keywords) {
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			success: function (result) {
 				var content=""; //variabile che contiene i risultati
-				
+
 				if (result==null) { //se result è nullo significa che non ci sono risultati
 					//svuoto la finestra dei risultati in caso ce ne fossero di precedenti
 					$('#result .internal_slider').html("");
@@ -2247,7 +2249,7 @@ function displayDB() {
 		success: function (result) {
 			console.log(result)
 			var res=""; //variabile che contiene i risultati
-			
+
 			var persons=result[0];
 			var places=result[1];
 			var cho=result[2];
@@ -2293,7 +2295,7 @@ function displayDB() {
 					var still_alive=value.still_alive;
 
 					//se il luogo di nascita non è specificato lo indico come mancante
-					if (birthplace=="") { 
+					if (birthplace=="") {
 						birthplace="--"
 					}
 					//se il luogo di morte non è specificato lo indico come mancante
@@ -2332,10 +2334,10 @@ function displayDB() {
 					'</tr>';
 				});
 				person_res+='</table>';
-				
+
 				$('#result .internal_slider').append(person_res);
 			}
-			
+
 			if (places!=null) {
 				$('#result .internal_slider').append("<h2 type='places' class='result_subtitle'>"+places.length+" Places<img class='DB_arrow' type='places' src='imgs/arrow.svg' /></h2>");
 				var places_res="<table class='DB_records_container' type='places'>";
@@ -2376,7 +2378,7 @@ function displayDB() {
 					else {
 						latlong=lat+", "+long;
 					}
-					
+
 					places_res+='<tr class="DB_record"><td><b>'+oname+', '+ename+'</b></td>'+
 					'<td>'+region+'</td><td>'+country+'</td><td>'+population+'</td><td>'+latlong+'</td>'+
 					'<td class="centered"><img type="place" key_id="'+key_id+'" class="view_record" src="imgs/len.svg" /></td>'+
@@ -2385,7 +2387,7 @@ function displayDB() {
 				places_res+="</table>";
 				$('#result .internal_slider').append(places_res);
 			}
-			
+
 			if (cho!=null) {
 				$('#result .internal_slider').append("<h2 type='cho' class='result_subtitle'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow' type='cho' src='imgs/arrow.svg' /></h2>");
 				var cho_res="<table class='DB_records_container' type='cho'>";
@@ -2421,7 +2423,7 @@ function displayDB() {
 					}
 
 
-					
+
 					cho_res+='<tr class="DB_record"><td><b>'+otitle+' ('+etitle+')</b></td>'+
 					'<td>'+author+'</td><td>'+place+'</td><td>'+date+'</td><td>'+type+'</td>'+
 					'<td class="centered"><img type="cho" key_id="'+key_id+'" class="view_record" src="imgs/len.svg" /></td>'+
@@ -2430,7 +2432,7 @@ function displayDB() {
 				cho_res+="</table>";
 				$('#result .internal_slider').append(cho_res);
 			}
-		
+
 			$('.DB_records_container').hide();
 			$('.result_subtitle').click(function(){
 				var type=$(this).attr('type');
@@ -2459,7 +2461,7 @@ function export_DB() {
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success: function (result) {
 			console.log(result)
-			
+
 			zip = new JSZip();
 			var readme='----- Files downloaded from MetadataEditor -----\r\n\r\n'+
 			'• In the "dump" folder you can find the DataBase structure, we recommend to import that first, if you haven\'t already.\r\n'+
@@ -2490,7 +2492,7 @@ function export_DB() {
 				});
 			},50);
 
-			
+
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
@@ -2576,7 +2578,7 @@ function adding_menu(id) {
 				$('#check_geonames').click(function(){check_geonames()});
 				//assegno al pulsante input_send la funzione add_data per l'inserimento dei dati nel DB
 				$('#input_send').click(function(){add_data(request)});
-				
+
 				if (request=="add_person") { //opzioni per il menu "person"
 					//disabilito i dettagli sulla morte in caso sia attiva l'opzione still_alive
 					$('#input_stillalive').click(function(){
@@ -2593,7 +2595,7 @@ function adding_menu(id) {
 				});
 
 					//controllo la validità della data di nascita durante l'inserimento
-					$("#input_birthdate").on("change paste keyup", function() { 
+					$("#input_birthdate").on("change paste keyup", function() {
 						if(isDate($('#input_birthdate').val())==true) {
 							dateCheck=true;
 							$('#input_birthdate').css("border-color","green");
@@ -2672,7 +2674,7 @@ function popup(type, content) {
 			$('#popup_container').hide();
 			$('#data_input').css("opacity",1);
 		});
-	}	
+	}
 };
 
 function resetInput() {
@@ -2761,7 +2763,7 @@ function check_wiki(request) {
 			},500);
 
 		}
-		
+
 	}
 
 	else if (request=="place") {
@@ -3013,7 +3015,7 @@ function add_data(request) {
 	var check=true;
 	var type;
 	var keywords;
-	
+
 	if (request=="add_person") {
 		type="person";
 		keywords=$('#input_name').val()+" "+$('#input_surname').val();
@@ -3076,7 +3078,7 @@ function add_data(request) {
 		data["wiki"]=$('#input_wiki').val();
 		data["bio"]=$('#input_bio').val();
 		data["picture"]=$('#input_picture').val();
-		
+
 		var author_id=$('option[value="'+data["author"]+'"').attr('key_id');
 		data["author_id"]=author_id;
 
@@ -3177,7 +3179,7 @@ function modify_menu(request, key_id) {
 					});
 
 					//controllo la validità della data di nascita durante l'inserimento
-					$("#input_birthdate").on("change paste keyup", function() { 
+					$("#input_birthdate").on("change paste keyup", function() {
 						if(isDate($('#input_birthdate').val())==true) {
 							dateCheck=true;
 							$('#input_birthdate').css("border-color","green");
@@ -3235,7 +3237,7 @@ function modify_menu(request, key_id) {
 							$('#input_wiki').val(result[0].linkwikiperson);
 							$('#input_viaf').val(result[0].linkviafperson);
 							$('#input_picture').val(result[0].picture);
-							
+
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
 							console.log(textStatus, errorThrown);
@@ -3262,7 +3264,7 @@ function modify_menu(request, key_id) {
 							$('#input_longitude').val(result[0].longitude);
 							$('#input_bio').val(result[0].description);
 							$('#input_wiki').val(result[0].linkwikipedia);
-							$('#input_picture').val(result[0].picture);		
+							$('#input_picture').val(result[0].picture);
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
 							console.log(textStatus, errorThrown);
@@ -3348,7 +3350,7 @@ function modify_data(request, key_id, action) {
 		var data={};
 		var check=true;
 		var keywords;
-		
+
 		if (request=="person") {
 			keywords=$('#input_name').val()+" "+$('#input_surname').val();
 			data["request"]="modify_person";
@@ -3412,7 +3414,7 @@ function modify_data(request, key_id, action) {
 			data["wiki"]=$('#input_wiki').val();
 			data["bio"]=$('#input_bio').val();
 			data["picture"]=$('#input_picture').val();
-			
+
 			var author_id=$('option[value="'+data["author"]+'"').attr('key_id');
 			data["author_id"]=author_id;
 
@@ -3431,7 +3433,7 @@ function modify_data(request, key_id, action) {
 					console.log("Result: "+result);
 					console.log("------------------------------------------");
 					if (result=="OK") {
-						
+
 						var content="<span>Update Succesful!</span><div class='popup_button' id='popup_view'>View Record</div><div class='popup_button' id='popup_close'>Close</div>";
 						popup("positive", content);
 						$("#popup_view").one( "click", function() {
@@ -3441,7 +3443,7 @@ function modify_data(request, key_id, action) {
 							$('#data_input textarea').val("");
 							$('#data_input').css("opacity",1);
 
-						}); 
+						});
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -3482,6 +3484,3 @@ function modify_data(request, key_id, action) {
 		});
 	}
 };
-
-
-
