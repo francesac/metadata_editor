@@ -1148,8 +1148,8 @@ function export_collection(coll_id, name) {
 			zip = new JSZip();
 			var readme='----- Files downloaded from MetadataEditor -----\r\n\r\n'+
 			'• In the "dump" folder you can find the DataBase structure, we recommend to import that first, if you haven\'t already.\r\n'+
-			'• Each file is related to a single table (persons, places, cho). You can import each datalist into each table.\r\n'+
-			'• The first line of each file contains the table fileds, make sure to check it out in your import option.';
+			'• Each csv file is related to a single table (persons, places, cho). You can import each datalist into each table.\r\n'+
+			'• The first line of each csv file contains the table fileds, make sure to check it out in your import options.';
 			zip.file("README.txt", readme);
 			files = zip.folder("csv");
 			dump = zip.folder("dump");
@@ -1173,7 +1173,7 @@ function export_collection(coll_id, name) {
 				    // see FileSaver.js
 				    saveAs(content, name.toLowerCase().replace(/ /g,"_")+".zip");
 				});
-			},50);
+			},200);
 
 
 		},
@@ -2490,7 +2490,7 @@ function export_DB() {
 				    // see FileSaver.js
 				    saveAs(content, 'metadata_editor.zip');
 				});
-			},50);
+			},200);
 
 
 		},
@@ -2844,7 +2844,7 @@ function check_viaf() {
 			success: function (result) {
 				$('#popup_container').hide();
 				console.log(result);
-				if (result.check=="EMPTY") {
+				if (result==null) {
 					var content="<span>Sorry, no results found!</span>";
 					content+="<div class='popup_button' id='popup_close'>Close</div>";
 					popup("no-res", content);

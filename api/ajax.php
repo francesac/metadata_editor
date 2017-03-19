@@ -103,7 +103,8 @@ switch($request) {
 			$nomecompleto = $cognomepersona;
 		}
 
-		$keys['a-'.$nomecompleto]=$nomecompleto;
+		$keys['a1-'.$nomecompleto]=$nomecompleto;
+		$keys['a2-'.$cognomepersona]=$cognomepersona;
 
 		//get VIAF id
 		$query="http://viaf.org/viaf/AutoSuggest?query=$nomecompleto";
@@ -217,14 +218,18 @@ switch($request) {
 		$query="http://viaf.org/viaf/AutoSuggest?query=$name_surname";
 		$result = file_get_contents("$query");
 		$json_viaf1 = json_decode($result);
-		$json_viaf2 = $json_viaf1 ->result;
-		$test=array();
-		if ($json_viaf2 !=null){
-			echo json_encode($json_viaf2);
+		$json_viaf2 = $json_viaf1 -> result;
+		$results=array();
+		if ($json_viaf2!="") {
+			foreach ($json_viaf2 as $key => $value) {
+				if ($value -> nametype == 'personal') {
+					array_push($results, $value);
+				}
+			}
+			echo json_encode($results);
 		}
 		else {
-			$test["check"]="EMPTY";
-			echo json_encode($test);
+			echo json_encode(null);
 		}
 	break;
 
